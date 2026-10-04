@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru" data-sw="../sw.js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keep-alive и авто-реконнект: почему соединение не рвётся — блог Zapret Discord</title>
+  <meta name="description" content="Почему роутер «забывает» простаивающие соединения, как keep-alive решает проблему и что делает авто-реконнект при обрыве сети.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <script>
+  try {
+    var t = localStorage.getItem('tgws-theme');
+    if (t === 'light' || (!t && matchMedia('(prefers-color-scheme: light)').matches)) {
+      document.documentElement.dataset.theme = 'light';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fafafa');
+    }
+  } catch (e) {}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+  <div class="glow glow-a" aria-hidden="true"></div>
+  <div class="glow glow-b" aria-hidden="true"></div>
+  <canvas class="bg-canvas" id="bg" aria-hidden="true"></canvas>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="logo" href="../">
+        <span class="logo-dot"></span>
+        <span>Zapret Discord</span>
+      </a>
+      <div class="nav-tools">
+        <div class="lang">
+          <a href="../" class="active" aria-current="true">RU</a>
+          <a href="../en/">EN</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Переключить тему" title="Переключить тему">
+          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/>
+          </svg>
+          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>
+          </svg>
+        </button>
+        <a class="btn-ghost nav-cta" href="../#download">Скачать</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc" id="main">
+    <p class="kicker">Блог · 2 октября 2026</p>
+    <h1>Keep-alive и авто-реконнект: почему соединение не рвётся</h1>
+
+    <p>Кажется, что если соединение установлено, оно живёт вечно. На практике у простаивающего канала есть два врага: NAT-таймаут у роутера и обрывы самой сети.</p>
+
+    <h2>NAT-таймаут</h2>
+    <p>Роутер держит таблицу активных соединений, чтобы знать, какому устройству возвращать пакеты. Запись в этой таблице живёт недолго — обычно 30–90 секунд без активности. Открыл туннель и молчал пару минут — роутер «забыл» канал, и следующий пакет уже не пройдёт: соединение мёртво, хотя никто ничего не закрывал.</p>
+
+    <h2>Keep-alive: тихий пульс</h2>
+    <p>Решение — периодические служебные пакеты. Раз в 15 секунд приложение отправляет крошечный ping и получает pong. Трафика — байты, зато запись в роутере всегда свежая, и канал живёт столько, сколько нужно. Именно эти события вы видите в логе: «keep-alive ping → pong 18 ms».</p>
+
+    <h2>Авто-реконнект: обрывы всё равно случаются</h2>
+    <p>Wi-Fi переключился на LTE, ноутбук уснул, провайдер мигнул — соединение рвётся физически. Авто-реконнект ловит это за миллисекунды: приложение заново поднимает туннель к тому же узлу, не дожидаясь, пока вы заметите. Со стороны это выглядит как «Discord просто не отвалился».</p>
+
+    <h2>Что это даёт на практике</h2>
+    <p>Соединение переживает смену сетей, сон ноутбука и молчаливые вечера. Именно поэтому подключение в Zapret Discord — это не «нажал и молись», а постоянный процесс: держать, проверять, восстанавливать.</p>
+
+    <p><a class="back" href="../">← Zapret Discord</a> · <a class="back" href="./">← Все статьи</a></p>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand"><span class="logo-dot"></span>© 2026 Zapret Discord</span>
+      <div class="footer-links">
+        <a href="../">На главную</a>
+        <a href="../support.html">Поддержка</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../app.js"></script>
+</body>
+</html>

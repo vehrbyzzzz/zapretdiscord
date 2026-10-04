@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="ru" data-sw="./sw.js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zapret Discord — обход блокировки Discord без VPN</title>
+  <meta name="description" content="Zapret Discord подключает Discord через быстрый WebSocket-туннель: авто-реконнект, TLS-обфускация, без логов и рекламы. Бесплатно. Windows 10/11.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
+  <!-- Верификация поисковиков: вставьте коды из кабинетов вебмастера и раскомментируйте
+       Яндекс    https://webmaster.yandex.ru
+       Google    https://search.google.com/search-console
+       Bing      https://www.bing.com/webmasters
+       Mail.ru   https://webmaster.mail.ru
+       Baidu     https://ziyuan.baidu.com
+       Naver     https://searchadvisor.naver.com -->
+  <meta name="yandex-verification" content="8bb18a4600611eff">
+  <meta name="google-site-verification" content="SxLlZ3FTC0dqYHlyGSsDTpzpEkKq143Ux__LEuk9C7c">
+  <meta name="msvalidate.01" content="8862D66B555B3E24EA8D3F0C0F921A12">
+  <!-- <meta name="mailru-verification" content="КОД_MAILRU"> -->
+  <!-- <meta name="baidu-site-verification" content="КОД_BAIDU"> -->
+  <!-- <meta name="naver-site-verification" content="КОД_NAVER"> -->
+  <!-- GitHub-репозиторий вида "user/repo" для живого бейджа версии -->
+  <meta name="zapret:repo" content="">
+
+  <link rel="canonical" href="https://zapretdiscord.shop/">
+  <link rel="alternate" hreflang="ru" href="https://zapretdiscord.shop/">
+  <link rel="alternate" hreflang="en" href="https://zapretdiscord.shop/en/">
+  <link rel="alternate" hreflang="x-default" href="https://zapretdiscord.shop/">
+  <meta property="og:url" content="https://zapretdiscord.shop/">
+  <meta property="og:image" content="https://zapretdiscord.shop/og-image.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zapret Discord">
+  <meta property="og:title" content="Zapret Discord — обход блокировки Discord без VPN">
+  <meta property="og:description" content="Поднимает WebSocket-туннель до прокси-узла и держит соединение с Discord открытым — в один клик, без лишних настроек.">
+  <meta property="og:image" content="og-image.png">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Zapret Discord — обход блокировки Discord без VPN">
+  <meta name="twitter:description" content="Стабильный доступ к Discord через ws-туннель. Один клик, Windows 10/11.">
+  <meta name="twitter:image" content="og-image.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <script>
+  try {
+    var t = localStorage.getItem('tgws-theme');
+    if (t === 'light' || (!t && matchMedia('(prefers-color-scheme: light)').matches)) {
+      document.documentElement.dataset.theme = 'light';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fafafa');
+    }
+  } catch (e) {}
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Zapret Discord",
+    "operatingSystem": "Windows 10, Windows 11",
+    "applicationCategory": "SecurityApplication",
+    "softwareVersion": "1.0.0",
+    "description": "Подключает Discord через быстрый WebSocket-туннель и держит соединение открытым. Один клик, без настроек и рекламы.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Чем Zapret Discord отличается от VPN?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Проксируется только трафик Discord — весь остальной интернет идёт напрямую. Это быстрее, легче для системы и не требует прав администратора." }
+      },
+      {
+        "@type": "Question",
+        "name": "Что такое ws-транспорт?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Discord общается с прокси через WebSocket — тот же протокол, что и у обычных сайтов. Канал сложно отличить от веб-трафика, поэтому он работает там, где прямые соединения обрываются." }
+      },
+      {
+        "@type": "Question",
+        "name": "Нужно ли что-то настраивать вручную?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Нет. Приложение само проверяет ws-узлы, выбирает самый быстрый туннель и подключается одной кнопкой." }
+      },
+      {
+        "@type": "Question",
+        "name": "Это бесплатно?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Да. Версия 1.0.0 полностью бесплатна — без рекламы, подписок и ограничений по трафику." }
+      },
+      {
+        "@type": "Question",
+        "name": "Какие данные вы собираете?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Никаких. Серверы не ведут логи обращений, а все настройки хранятся только на вашем компьютере." }
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <a class="skip" href="#main">Перейти к содержанию</a>
+
+  <div class="glow glow-a" aria-hidden="true"></div>
+  <div class="glow glow-b" aria-hidden="true"></div>
+  <canvas class="bg-canvas" id="bg" aria-hidden="true"></canvas>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="logo" href="#top">
+        <span class="logo-dot"></span>
+        <span>Zapret Discord</span>
+      </a>
+      <div class="nav-links">
+        <a href="#demo">Интерфейс</a>
+        <a href="#how">Как это работает</a>
+        <a href="#features">Преимущества</a>
+        <a href="#faq">FAQ</a>
+        <a href="#download">Скачать</a>
+      </div>
+      <div class="nav-tools">
+        <div class="lang">
+          <a href="./" class="active" aria-current="true">RU</a>
+          <a href="./en/">EN</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Переключить тему" title="Переключить тему">
+          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/>
+          </svg>
+          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>
+          </svg>
+        </button>
+        <a class="btn-ghost nav-cta" href="#download">Скачать</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container">
+      <p class="overline">Прокси для Discord на WebSocket-транспорте</p>
+      <h1>Zapret Discord</h1>
+      <p class="slogan">Туннель живой. Discord на связи.</p>
+      <p class="hero-sub">Поднимает <span class="term" tabindex="0" data-tip="Постоянное соединение поверх WebSocket — обычного веб-протокола: трафик неотличим от посещения сайтов.">WebSocket-туннель</span> до прокси-узла и держит соединение с Discord открытым — в один клик, без лишних настроек.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://github.com/vehrbyzzzz/tg-ws-proxy-site/releases/download/t/ZapretDiscord.exe" download>Скачать для Windows</a>
+        <a class="btn-ghost" href="#how">Как это работает</a>
+      </div>
+      <span class="tunnel" aria-hidden="true"><i></i><i></i><i></i></span>
+      <p class="hero-meta">ws-транспорт&nbsp;&nbsp;·&nbsp;&nbsp;авто-реконнект&nbsp;&nbsp;·&nbsp;&nbsp;Windows 10 / 11</p>
+    </div>
+    <span class="scroll-cue" aria-hidden="true"></span>
+  </header>
+
+  <main id="main">
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <div class="ticker-group">
+        <span>WS-ТРАНСПОРТ</span><span>АВТО-РЕКОННЕКТ</span><span>KEEP-ALIVE 15 СЕК</span><span>TLS-ОБФУСКАЦИЯ</span><span>РЕЗЕРВНЫЙ УЗЕЛ</span><span>ПОРТ 443</span><span>БЕЗ ЛОГОВ</span><span>НОЛЬ РЕКЛАМЫ</span>
+      </div>
+      <div class="ticker-group">
+        <span>WS-ТРАНСПОРТ</span><span>АВТО-РЕКОННЕКТ</span><span>KEEP-ALIVE 15 СЕК</span><span>TLS-ОБФУСКАЦИЯ</span><span>РЕЗЕРВНЫЙ УЗЕЛ</span><span>ПОРТ 443</span><span>БЕЗ ЛОГОВ</span><span>НОЛЬ РЕКЛАМЫ</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" id="demo">
+    <div class="container">
+      <p class="kicker reveal">Интерфейс</p>
+      <h2 class="reveal">Ничего лишнего. Только туннель.</h2>
+      <p class="section-sub reveal">Крупный индикатор задержки, список ws-узлов слева и одна кнопка — весь интерфейс помещается в один экран.</p>
+
+      <div class="mock reveal" id="mock">
+        <div class="mock-tb">
+          <span class="mock-dot"></span>
+          <span class="mock-name">Zapret Discord</span>
+          <span class="mock-win" aria-hidden="true"><i></i><i></i><i></i></span>
+        </div>
+        <div class="mock-body">
+          <div class="mock-side">
+            <div class="mock-label">ws-узлы</div>
+            <div class="mock-row active" data-node="Frankfurt" tabindex="0"><span>Frankfurt<small>de-1.dcgws.net</small></span><b>21</b></div>
+            <div class="mock-row" data-node="Amsterdam" tabindex="0"><span>Amsterdam<small>nl-2.dcgws.net</small></span><b>33</b></div>
+            <div class="mock-row" data-node="Helsinki" tabindex="0"><span>Helsinki<small>fi-3.dcgws.net</small></span><b>14</b></div>
+            <div class="mock-row" data-node="Stockholm" tabindex="0"><span>Stockholm<small>se-4.dcgws.net</small></span><b>47</b></div>
+          </div>
+          <div class="mock-main">
+            <div class="mock-status offline" id="mockStatus" data-online="Подключено" data-offline="Не подключено" data-connecting="Подключение…"><span class="dot"></span><span id="mockStatusText">Не подключено</span></div>
+            <div class="mock-num"><span id="mockNum">—</span><em>ms</em></div>
+            <div class="mock-sub" id="mockSub">Выбранный узел · Frankfurt</div>
+            <div class="mock-log" id="mockLog"><i class="ws">[ws]</i><span>выберите узел и нажмите «Подключить»</span></div>
+            <div class="mock-progress"><i id="mockFill"></i></div>
+            <div class="mock-btn" id="mockBtn" role="button" tabindex="0" data-connect="Подключить" data-connecting="Подключение…" data-disconnect="Отключить">Подключить</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="container">
+      <p class="kicker reveal">Как это работает</p>
+      <h2 class="reveal">Три шага до стабильного Discord</h2>
+      <div class="steps">
+        <div class="step reveal">
+          <span class="step-num">01</span>
+          <h3>Диагностика</h3>
+          <p>Приложение проверяет доступные <span class="term" tabindex="0" data-tip="Прокси-серверы, к которым приложение подключается по WebSocket.">ws-узлы</span> в реальном времени и замеряет отклик каждого туннеля.</p>
+        </div>
+        <div class="step reveal">
+          <span class="step-num">02</span>
+          <h3>Выбор узла</h3>
+          <p>Из всех узлов выбирается самый быстрый WebSocket-сервер с минимальной задержкой.</p>
+        </div>
+        <div class="step reveal">
+          <span class="step-num">03</span>
+          <h3>Подключение</h3>
+          <p>Discord переключается на выбранный туннель: <span class="term" tabindex="0" data-tip="Периодические служебные пакеты, не дающие соединению закрыться на простое.">keep-alive</span> и авто-реконнект держат канал открытым, DNS-кэш очищается.</p>
+        </div>
+      </div>
+
+      <div class="scheme reveal" role="img" aria-label="Схема: Discord идёт через приложение и ws-туннель к серверам Discord">
+        <svg viewBox="0 0 860 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect class="box" x="10" y="42" width="160" height="46" rx="9"/>
+          <text x="90" y="62" text-anchor="middle">Discord</text>
+          <text class="sub" x="90" y="79" text-anchor="middle">клиент</text>
+          <rect class="box box-us" x="250" y="42" width="170" height="46" rx="9"/>
+          <text x="335" y="62" text-anchor="middle">Zapret Discord</text>
+          <text class="sub" x="335" y="79" text-anchor="middle">приложение</text>
+          <rect class="box" x="500" y="42" width="160" height="46" rx="9"/>
+          <text x="580" y="62" text-anchor="middle">ws-узел</text>
+          <text class="sub" x="580" y="79" text-anchor="middle">de-1.dcgws.net:443</text>
+          <rect class="box" x="736" y="42" width="114" height="46" rx="9"/>
+          <text x="793" y="62" text-anchor="middle">Discord</text>
+          <text class="sub" x="793" y="79" text-anchor="middle">серверы</text>
+          <line class="flow" x1="176" y1="65" x2="244" y2="65"/>
+          <line class="flow" x1="426" y1="65" x2="494" y2="65"/>
+          <line class="flow" x1="666" y1="65" x2="730" y2="65"/>
+          <text class="lbl" x="210" y="30" text-anchor="middle">ws</text>
+          <text class="lbl" x="460" y="30" text-anchor="middle">ws</text>
+          <text class="lbl" x="698" y="30" text-anchor="middle">mtp</text>
+          <text class="sub" x="430" y="126" text-anchor="middle">Трафик Discord зашифрован и идёт через туннель, остальной интернет — напрямую</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="container">
+      <p class="kicker reveal">Преимущества</p>
+      <h2 class="reveal">Сделано для Discord</h2>
+      <div class="features">
+        <div class="feature reveal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M9 15l6-6M7.5 12.5l-2 2a3.5 3.5 0 0 0 5 5l2-2M16.5 11.5l2-2a3.5 3.5 0 0 0-5-5l-2 2"/>
+          </svg>
+          <h3>Стабильный туннель</h3>
+          <p>Keep-alive и мгновенный реконнект — соединение не рвётся даже при смене сети.</p>
+        </div>
+        <div class="feature reveal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"/>
+          </svg>
+          <h3>Незаметный трафик</h3>
+          <p>WebSocket-канал выглядит как обычный веб-трафик и проходит там, где прямые соединения не работают.</p>
+        </div>
+        <div class="feature reveal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/>
+          </svg>
+          <h3>Один клик</h3>
+          <p>Всё подключение — одна кнопка. Без ручных настроек и командной строки.</p>
+        </div>
+        <div class="feature reveal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M20 4c-6 0-12 3-14 11l-2 5M6 15c6 1 10-2 12-9"/>
+          </svg>
+          <h3>Легковесность</h3>
+          <p>Минимум памяти, ноль фоновой активности и рекламы. Только туннель.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="map">
+    <div class="container">
+      <p class="kicker reveal">Инфраструктура</p>
+      <h2 class="reveal">Узлы рядом с вами</h2>
+      <p class="section-sub reveal">Четыре ws-узла в Европе: приложение всегда выбирает ближайший и самый быстрый.</p>
+
+      <div class="map-panel reveal" role="img" aria-label="Схема сети: вы в центре, вокруг четыре узла во Франкфурте, Амстердаме, Хельсинки и Стокгольме">
+        <svg viewBox="0 0 860 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line class="link" x1="430" y1="140" x2="170" y2="70"/>
+          <line class="link" x1="430" y1="140" x2="700" y2="62"/>
+          <line class="link" x1="430" y1="140" x2="250" y2="210"/>
+          <line class="link" x1="430" y1="140" x2="640" y2="196"/>
+
+          <circle class="pulse" cx="170" cy="70" r="8">
+            <animate attributeName="r" values="7;20" dur="2.6s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".5;0" dur="2.6s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="node" cx="170" cy="70" r="5"/>
+          <circle class="pulse" cx="700" cy="62" r="8">
+            <animate attributeName="r" values="7;20" dur="2.6s" begin=".65s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".5;0" dur="2.6s" begin=".65s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="node" cx="700" cy="62" r="5"/>
+          <circle class="pulse" cx="250" cy="210" r="8">
+            <animate attributeName="r" values="7;20" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".5;0" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="node" cx="250" cy="210" r="5"/>
+          <circle class="pulse" cx="640" cy="196" r="8">
+            <animate attributeName="r" values="7;20" dur="2.6s" begin="1.95s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".5;0" dur="2.6s" begin="1.95s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="node" cx="640" cy="196" r="5"/>
+
+          <circle class="ring" cx="430" cy="140" r="14"/>
+          <circle class="hub" cx="430" cy="140" r="6"/>
+
+          <text x="170" y="46" text-anchor="middle">Amsterdam</text>
+          <text class="sub" x="170" y="92" text-anchor="middle">nl-2.dcgws.net</text>
+          <text x="700" y="38" text-anchor="middle">Helsinki</text>
+          <text class="sub" x="700" y="84" text-anchor="middle">fi-3.dcgws.net</text>
+          <text x="250" y="242" text-anchor="middle">Frankfurt</text>
+          <text class="sub" x="250" y="196" text-anchor="middle" transform="translate(0,-6)">de-1.dcgws.net</text>
+          <text x="640" y="228" text-anchor="middle">Stockholm</text>
+          <text class="sub" x="640" y="182" text-anchor="middle" transform="translate(0,-6)">se-4.dcgws.net</text>
+
+          <text x="430" y="178" text-anchor="middle">вы</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="compare">
+    <div class="container">
+      <p class="kicker reveal">Сравнение</p>
+      <h2 class="reveal">Почему не VPN</h2>
+      <div class="compare reveal">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th class="col-us">Zapret Discord</th>
+              <th>VPN</th>
+              <th>Обычный прокси</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Что идёт через туннель</td>
+              <td class="col-us">Только Discord</td>
+              <td>Весь трафик системы</td>
+              <td>Только Discord</td>
+            </tr>
+            <tr>
+              <td>Скорость остального интернета</td>
+              <td class="col-us">Не меняется — идёт напрямую</td>
+              <td>Упирается в сервер VPN</td>
+              <td>Не меняется</td>
+            </tr>
+            <tr>
+              <td>Настройка</td>
+              <td class="col-us">Одна кнопка</td>
+              <td>Приложение, конфиги, ключи</td>
+              <td>Ручные ссылки в клиенте Discord</td>
+            </tr>
+            <tr>
+              <td>Обход блокировок</td>
+              <td class="col-us">ws-канал маскируется под обычный веб</td>
+              <td>Зависит от протокола: OpenVPN часто режут</td>
+              <td>Сигнатуры прокси легко детектируются</td>
+            </tr>
+            <tr>
+              <td>Нагрузка на систему</td>
+              <td class="col-us">Минимальная</td>
+              <td>Шифрование всего трафика</td>
+              <td>Минимальная</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <p class="kicker reveal">FAQ</p>
+      <h2 class="reveal">Частые вопросы</h2>
+      <div class="faq-list reveal">
+        <details class="faq-item">
+          <summary>Чем Zapret Discord отличается от VPN?</summary>
+          <p>Проксируется только трафик Discord — весь остальной интернет идёт напрямую. Это быстрее, легче для системы и не требует прав администратора.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Что такое ws-транспорт?</summary>
+          <p>Discord общается с прокси через WebSocket — тот же протокол, что и у обычных сайтов. Канал сложно отличить от веб-трафика, поэтому он работает там, где прямые соединения обрываются.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Нужно ли что-то настраивать вручную?</summary>
+          <p>Нет. Приложение само проверяет ws-узлы, выбирает самый быстрый туннель и подключается одной кнопкой.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Это бесплатно?</summary>
+          <p>Да. Версия 1.0.0 полностью бесплатна — без рекламы, подписок и ограничений по трафику.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Какие данные вы собираете?</summary>
+          <p>Никаких. Серверы не ведут логи обращений, а все настройки хранятся только на вашем компьютере.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="changelog">
+    <div class="container">
+      <p class="kicker reveal">Что нового</p>
+      <h2 class="reveal">Changelog</h2>
+      <div class="changelog reveal">
+        <div class="cl-item">
+          <div class="cl-ver">v1.0.0</div>
+          <div class="cl-body">
+            <div class="cl-date">2 октября 2026</div>
+            <p>Первый релиз: WebSocket-туннель до прокси-узла, авто-выбор самого быстрого сервера, keep-alive и авто-реконнект, защита DNS.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section download" id="download">
+    <div class="container">
+      <span class="tunnel tunnel-dl" aria-hidden="true"><i></i><i></i><i></i></span>
+      <h2 class="reveal">Откройте Discord сегодня</h2>
+      <p class="dl-meta reveal" id="dlMeta">Версия 1.0.0 · Windows 10 / 11 · 64-бит</p>
+      <!-- TODO: замените href на ссылку вашего релиза .exe -->
+      <div class="dl-actions reveal">
+        <a class="btn-primary btn-big" href="https://github.com/vehrbyzzzz/tg-ws-proxy-site/releases/download/t/ZapretDiscord.exe" download>Скачать для Windows</a>
+      </div>
+      <p class="dl-note reveal">Бесплатно · Без рекламы · Настройка за минуту</p>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand"><span class="logo-dot"></span>© 2026 Zapret Discord</span>
+      <div class="footer-links">
+        <a href="#top">Наверх</a>
+        <a href="blog/">Блог</a>
+        <a href="support.html">Поддержка</a>
+        <a href="terms.html">Условия использования</a>
+      </div>
+    </div>
+  </footer>
+
+  <a class="mobile-cta" id="mobileCta" href="#download">Скачать Zapret Discord</a>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Наверх">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <script src="app.js"></script>
+</body>
+</html>

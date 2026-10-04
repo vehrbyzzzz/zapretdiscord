@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru" data-sw="./../sw.js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Блог — Zapret Discord</title>
+  <meta name="description" content="Статьи о WebSocket-туннелях, пинге, keep-alive и стабильном доступе к Discord — простым языком.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <script>
+  try {
+    var t = localStorage.getItem('tgws-theme');
+    if (t === 'light' || (!t && matchMedia('(prefers-color-scheme: light)').matches)) {
+      document.documentElement.dataset.theme = 'light';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fafafa');
+    }
+  } catch (e) {}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+  <div class="glow glow-a" aria-hidden="true"></div>
+  <div class="glow glow-b" aria-hidden="true"></div>
+  <canvas class="bg-canvas" id="bg" aria-hidden="true"></canvas>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="logo" href="../">
+        <span class="logo-dot"></span>
+        <span>Zapret Discord</span>
+      </a>
+      <div class="nav-tools">
+        <div class="lang">
+          <a href="../" class="active" aria-current="true">RU</a>
+          <a href="../en/">EN</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Переключить тему" title="Переключить тему">
+          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/>
+          </svg>
+          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>
+          </svg>
+        </button>
+        <a class="btn-ghost nav-cta" href="../#download">Скачать</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="doc" id="main">
+    <p class="kicker">Блог</p>
+    <h1>Статьи о туннелях и Discord</h1>
+    <p>Простым языком о том, как работает ws-транспорт, зачем нужен keep-alive и что на самом деле означает «пинг».</p>
+
+    <div class="post-list">
+      <a class="post-item" href="ws-transport.html">
+        <div class="p-date">2 октября 2026</div>
+        <h2>Чем ws-транспорт отличается от VPN</h2>
+        <p>Почему для Discord достаточно точечного туннеля, как DPI находит прокси и при чём тут обычные веб-сокеты.</p>
+      </a>
+      <a class="post-item" href="ping-i-dzhitter.html">
+        <div class="p-date">2 октября 2026</div>
+        <h2>Пинг, джиттер и почему «интернет тормозит»</h2>
+        <p>Из чего складывается задержка, почему разброс важнее среднего и как измерять честно.</p>
+      </a>
+      <a class="post-item" href="keep-alive.html">
+        <div class="p-date">2 октября 2026</div>
+        <h2>Keep-alive и авто-реконнект: почему соединение не рвётся</h2>
+        <p>Зачем роутер «забывает» простаивающие соединения и как служебные пакеты решают проблему.</p>
+      </a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand"><span class="logo-dot"></span>© 2026 Zapret Discord</span>
+      <div class="footer-links">
+        <a href="../">На главную</a>
+        <a href="../support.html">Поддержка</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../app.js"></script>
+</body>
+</html>

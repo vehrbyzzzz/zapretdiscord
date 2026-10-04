@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en" data-sw="../sw.js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zapret Discord — unblock Discord without a VPN</title>
+  <meta name="description" content="Zapret Discord connects Discord through a fast WebSocket tunnel: auto-reconnect, TLS obfuscation, no logs, no ads. Free. Windows 10/11.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
+  <!-- Search-engine verification: paste codes from each webmaster console, then uncomment
+       Yandex   https://webmaster.yandex.ru
+       Google   https://search.google.com/search-console
+       Bing     https://www.bing.com/webmasters
+       Mail.ru  https://webmaster.mail.ru
+       Baidu    https://ziyuan.baidu.com
+       Naver    https://searchadvisor.naver.com -->
+  <meta name="yandex-verification" content="8bb18a4600611eff">
+  <meta name="google-site-verification" content="SxLlZ3FTC0dqYHlyGSsDTpzpEkKq143Ux__LEuk9C7c">
+  <meta name="msvalidate.01" content="8862D66B555B3E24EA8D3F0C0F921A12">
+  <!-- <meta name="mailru-verification" content="MAILRU_CODE"> -->
+  <!-- <meta name="baidu-site-verification" content="BAIDU_CODE"> -->
+  <!-- <meta name="naver-site-verification" content="NAVER_CODE"> -->
+  <!-- GitHub repo like "user/repo" for the live version badge -->
+  <meta name="zapret:repo" content="">
+
+  <link rel="canonical" href="https://zapretdiscord.shop/en/">
+  <link rel="alternate" hreflang="ru" href="https://zapretdiscord.shop/">
+  <link rel="alternate" hreflang="en" href="https://zapretdiscord.shop/en/">
+  <link rel="alternate" hreflang="x-default" href="https://zapretdiscord.shop/">
+  <meta property="og:url" content="https://zapretdiscord.shop/en/">
+  <meta property="og:image" content="https://zapretdiscord.shop/og-image.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zapret Discord">
+  <meta property="og:title" content="Zapret Discord — Discord over a WebSocket tunnel">
+  <meta property="og:description" content="Raises a WebSocket tunnel to a proxy node and keeps your Discord connection open — one click, no settings.">
+  <meta property="og:image" content="../og-image.png">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Zapret Discord — Discord over a WebSocket tunnel">
+  <meta name="twitter:description" content="Stable access to Discord over a ws-tunnel. One click, Windows 10/11.">
+  <meta name="twitter:image" content="../og-image.png">
+  <link rel="manifest" href="../manifest.webmanifest">
+
+  <script>
+  try {
+    var t = localStorage.getItem('tgws-theme');
+    if (t === 'light' || (!t && matchMedia('(prefers-color-scheme: light)').matches)) {
+      document.documentElement.dataset.theme = 'light';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fafafa');
+    }
+  } catch (e) {}
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Zapret Discord",
+    "operatingSystem": "Windows 10, Windows 11",
+    "applicationCategory": "SecurityApplication",
+    "softwareVersion": "1.0.0",
+    "description": "Connects Discord through a fast WebSocket tunnel and keeps the connection open. One click, no setup, no ads.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="glow glow-a" aria-hidden="true"></div>
+  <div class="glow glow-b" aria-hidden="true"></div>
+  <canvas class="bg-canvas" id="bg" aria-hidden="true"></canvas>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="logo" href="#top">
+        <span class="logo-dot"></span>
+        <span>Zapret Discord</span>
+      </a>
+      <div class="nav-links">
+        <a href="#demo">Interface</a>
+        <a href="#how">How it works</a>
+        <a href="#features">Advantages</a>
+        <a href="#faq">FAQ</a>
+        <a href="#download">Download</a>
+      </div>
+      <div class="nav-tools">
+        <div class="lang">
+          <a href="../">RU</a>
+          <a href="./" class="active" aria-current="true">EN</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/>
+          </svg>
+          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>
+          </svg>
+        </button>
+        <a class="btn-ghost nav-cta" href="#download">Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container">
+      <p class="overline">Discord proxy over WebSocket transport</p>
+      <h1>Zapret Discord</h1>
+      <p class="slogan">The tunnel stays alive. Discord stays online.</p>
+      <p class="hero-sub">Raises a <span class="term" tabindex="0" data-tip="A persistent connection over WebSocket — a regular web protocol: the traffic is indistinguishable from visiting websites.">WebSocket tunnel</span> to a proxy node and keeps your Discord connection open — one click, no extra settings.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://github.com/vehrbyzzzz/tg-ws-proxy-site/releases/download/t/ZapretDiscord.exe" download>Download for Windows</a>
+        <a class="btn-ghost" href="#how">How it works</a>
+      </div>
+      <span class="tunnel" aria-hidden="true"><i></i><i></i><i></i></span>
+      <p class="hero-meta">ws transport&nbsp;&nbsp;·&nbsp;&nbsp;auto-reconnect&nbsp;&nbsp;·&nbsp;&nbsp;Windows 10 / 11</p>
+    </div>
+    <span class="scroll-cue" aria-hidden="true"></span>
+  </header>
+
+  <main id="main">
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <div class="ticker-group">
+        <span>WS TRANSPORT</span><span>AUTO-RECONNECT</span><span>KEEP-ALIVE 15 SEC</span><span>TLS OBFUSCATION</span><span>BACKUP NODE</span><span>PORT 443</span><span>NO LOGS</span><span>NO ADS</span>
+      </div>
+      <div class="ticker-group">
+        <span>WS TRANSPORT</span><span>AUTO-RECONNECT</span><span>KEEP-ALIVE 15 SEC</span><span>TLS OBFUSCATION</span><span>BACKUP NODE</span><span>PORT 443</span><span>NO LOGS</span><span>NO ADS</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" id="demo">
+    <div class="container">
+      <p class="kicker reveal">Interface</p>
+      <h2 class="reveal">Nothing extra. Just the tunnel.</h2>
+      <p class="section-sub reveal">A large latency indicator, the list of ws-nodes on the left and a single button — the whole interface fits on one screen.</p>
+
+      <div class="mock reveal" id="mock">
+        <div class="mock-tb">
+          <span class="mock-dot"></span>
+          <span class="mock-name">Zapret Discord</span>
+          <span class="mock-win" aria-hidden="true"><i></i><i></i><i></i></span>
+        </div>
+        <div class="mock-body">
+          <div class="mock-side">
+            <div class="mock-label">ws nodes</div>
+            <div class="mock-row active" data-node="Frankfurt" tabindex="0"><span>Frankfurt<small>de-1.dcgws.net</small></span><b>21</b></div>
+            <div class="mock-row" data-node="Amsterdam" tabindex="0"><span>Amsterdam<small>nl-2.dcgws.net</small></span><b>33</b></div>
+            <div class="mock-row" data-node="Helsinki" tabindex="0"><span>Helsinki<small>fi-3.dcgws.net</small></span><b>14</b></div>
+            <div class="mock-row" data-node="Stockholm" tabindex="0"><span>Stockholm<small>se-4.dcgws.net</small></span><b>47</b></div>
+          </div>
+          <div class="mock-main">
+            <div class="mock-status offline" id="mockStatus" data-online="Connected" data-offline="Offline" data-connecting="Connecting…"><span class="dot"></span><span id="mockStatusText">Offline</span></div>
+            <div class="mock-num"><span id="mockNum">—</span><em>ms</em></div>
+            <div class="mock-sub" id="mockSub">Selected node · Frankfurt</div>
+            <div class="mock-log" id="mockLog"><i class="ws">[ws]</i><span>pick a node and press "Connect"</span></div>
+            <div class="mock-progress"><i id="mockFill"></i></div>
+            <div class="mock-btn" id="mockBtn" role="button" tabindex="0" data-connect="Connect" data-connecting="Connecting…" data-disconnect="Disconnect">Connect</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="container">
+      <p class="kicker reveal">How it works</p>
+      <h2 class="reveal">Three steps to a stable Discord</h2>
+      <div class="steps">
+        <div class="step reveal">
+          <span class="step-num">01</span>
+          <h3>Diagnostics</h3>
+          <p>The app checks available <span class="term" tabindex="0" data-tip="Proxy servers the app connects to over WebSocket.">ws-nodes</span> in real time and measures the response of every tunnel.</p>
+        </div>
+        <div class="step reveal">
+          <span class="step-num">02</span>
+          <h3>Node selection</h3>
+          <p>Out of all nodes it picks the fastest WebSocket server with the minimal latency.</p>
+        </div>
+        <div class="step reveal">
+          <span class="step-num">03</span>
+          <h3>Connection</h3>
+          <p>Discord switches to the chosen tunnel: <span class="term" tabindex="0" data-tip="Periodic service packets that keep the connection from closing while idle.">keep-alive</span> and auto-reconnect keep the channel open, the DNS cache is flushed.</p>
+        </div>
+      </div>
+
+      <div class="scheme reveal" role="img" aria-label="Scheme: Discord goes through the app and a ws-tunnel to Discord servers">
+        <svg viewBox="0 0 860 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect class="box" x="10" y="42" width="160" height="46" rx="9"/>
+          <text x="90" y="62" text-anchor="middle">Discord</text>
+          <text class="sub" x="90" y="79" text-anchor="middle">client</text>
+          <rect class="box box-us" x="250" y="42" width="170" height="46" rx="9"/>
+          <text x="335" y="62" text-anchor="middle">Zapret Discord</text>
+          <text class="sub" x="335" y="79" text-anchor="middle">app</text>
+          <rect class="box" x="500" y="42" width="160" height="46" rx="9"/>
+          <text x="580" y="62" text-anchor="middle">ws node</text>
+          <text class="sub" x="580" y="79" text-anchor="middle">de-1.dcgws.net:443</text>
+          <rect class="box" x="736" y="42" width="114" height="46" rx="9"/>
+          <text x="793" y="62" text-anchor="middle">Discord</text>
+          <text class="sub" x="793" y="79" text-anchor="middle">servers</text>
+          <line class="flow" x1="176" y1="65" x2="244" y2="65"/>
+          <line class="flow" x1="426" y1="65" x2="494" y2="65"/>
+          <line class="flow" x1="666" y1="65" x2="730" y2="65"/>
+          <text class="lbl" x="210" y="30" text-anchor="middle">ws</text>
+          <text class="lbl" x="460" y="30" text-anchor="middle">ws</text>
+          <text class="lbl" x="698" y="30" text-anchor="middle">mtp</text>
+          <text class="sub" x="430" y="126" text-anchor="middle">Discord traffic is encrypted and goes through the tunnel, the rest of the internet — directly</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="container">
+      <p class="kicker reveal">Advantages</p>
+      <h2 class="reveal">Built for Discord</h2>
+      <div class="features">
+        <div class="feature reveal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M9 15l6-6M7.5 12.5l-2 2a3.5 3.5 0 0 0 5 5l2-2M16.5 11.5l2-2a3.5 3.5 0 0 0-5-5l-2 2"/>
+          </svg>
+          <h3>Stable tunnel</h3>
+          <p>Keep-alive and instant reconnect — the connection survives even a network switch.</p>
+        </div>
+        <div class="feature reveal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"/>
+          </svg>
+          <h3>Unremarkable traffic</h3>
+          <p>The WebSocket channel looks like ordinary web traffic and passes where direct connections fail.</p>
+        </div>
+        <div class="feature reveal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/>
+          </svg>
+          <h3>One click</h3>
+          <p>The whole connection is a single button. No manual setup, no command line.</p>
+        </div>
+        <div class="feature reveal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M20 4c-6 0-12 3-14 11l-2 5M6 15c6 1 10-2 12-9"/>
+          </svg>
+          <h3>Lightweight</h3>
+          <p>Minimal memory, zero background activity and ads. Just the tunnel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="map">
+    <div class="container">
+      <p class="kicker reveal">Infrastructure</p>
+      <h2 class="reveal">Nodes near you</h2>
+      <p class="section-sub reveal">Four ws-nodes across Europe: the app always picks the closest and the fastest one.</p>
+
+      <div class="map-panel reveal" role="img" aria-label="Network scheme: you in the center, surrounded by four nodes in Frankfurt, Amsterdam, Helsinki and Stockholm">
+        <svg viewBox="0 0 860 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line class="link" x1="430" y1="140" x2="170" y2="70"/>
+          <line class="link" x1="430" y1="140" x2="700" y2="62"/>
+          <line class="link" x1="430" y1="140" x2="250" y2="210"/>
+          <line class="link" x1="430" y1="140" x2="640" y2="196"/>
+
+          <circle class="pulse" cx="170" cy="70" r="8">
+            <animate attributeName="r" values="7;20" dur="2.6s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".5;0" dur="2.6s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="node" cx="170" cy="70" r="5"/>
+          <circle class="pulse" cx="700" cy="62" r="8">
+            <animate attributeName="r" values="7;20" dur="2.6s" begin=".65s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".5;0" dur="2.6s" begin=".65s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="node" cx="700" cy="62" r="5"/>
+          <circle class="pulse" cx="250" cy="210" r="8">
+            <animate attributeName="r" values="7;20" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".5;0" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="node" cx="250" cy="210" r="5"/>
+          <circle class="pulse" cx="640" cy="196" r="8">
+            <animate attributeName="r" values="7;20" dur="2.6s" begin="1.95s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".5;0" dur="2.6s" begin="1.95s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="node" cx="640" cy="196" r="5"/>
+
+          <circle class="ring" cx="430" cy="140" r="14"/>
+          <circle class="hub" cx="430" cy="140" r="6"/>
+
+          <text x="170" y="46" text-anchor="middle">Amsterdam</text>
+          <text class="sub" x="170" y="92" text-anchor="middle">nl-2.dcgws.net</text>
+          <text x="700" y="38" text-anchor="middle">Helsinki</text>
+          <text class="sub" x="700" y="84" text-anchor="middle">fi-3.dcgws.net</text>
+          <text x="250" y="242" text-anchor="middle">Frankfurt</text>
+          <text class="sub" x="250" y="196" text-anchor="middle" transform="translate(0,-6)">de-1.dcgws.net</text>
+          <text x="640" y="228" text-anchor="middle">Stockholm</text>
+          <text class="sub" x="640" y="182" text-anchor="middle" transform="translate(0,-6)">se-4.dcgws.net</text>
+
+          <text x="430" y="178" text-anchor="middle">you</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="compare">
+    <div class="container">
+      <p class="kicker reveal">Comparison</p>
+      <h2 class="reveal">Why not a VPN</h2>
+      <div class="compare reveal">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th class="col-us">Zapret Discord</th>
+              <th>VPN</th>
+              <th>Generic proxy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>What goes through the tunnel</td>
+              <td class="col-us">Discord only</td>
+              <td>All system traffic</td>
+              <td>Discord only</td>
+            </tr>
+            <tr>
+              <td>Speed of everything else</td>
+              <td class="col-us">Unchanged — goes directly</td>
+              <td>Capped by the VPN server</td>
+              <td>Unchanged</td>
+            </tr>
+            <tr>
+              <td>Setup</td>
+              <td class="col-us">One button</td>
+              <td>App, configs, keys</td>
+              <td>Manual links inside Discord</td>
+            </tr>
+            <tr>
+              <td>Blocking resistance</td>
+              <td class="col-us">The ws-channel masks itself as regular web traffic</td>
+              <td>Depends on protocol: OpenVPN is often throttled</td>
+              <td>Proxy signatures are easily detected</td>
+            </tr>
+            <tr>
+              <td>System load</td>
+              <td class="col-us">Minimal</td>
+              <td>Encrypting all traffic</td>
+              <td>Minimal</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <p class="kicker reveal">FAQ</p>
+      <h2 class="reveal">Frequently asked questions</h2>
+      <div class="faq-list reveal">
+        <details class="faq-item">
+          <summary>How is Zapret Discord different from a VPN?</summary>
+          <p>Only Discord traffic is proxied — everything else goes directly. That makes it faster, lighter on the system and it needs no administrator rights.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is ws transport?</summary>
+          <p>Discord talks to the proxy over WebSocket — the same protocol ordinary websites use. The channel is hard to tell apart from web traffic, so it works where direct connections break.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there anything to configure manually?</summary>
+          <p>No. The app checks the ws-nodes itself, picks the fastest tunnel and connects with a single button.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is it free?</summary>
+          <p>Yes. Version 1.0.0 is completely free — no ads, no subscriptions, no traffic limits.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What data do you collect?</summary>
+          <p>None. The servers keep no request logs, and all settings are stored only on your computer.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="changelog">
+    <div class="container">
+      <p class="kicker reveal">What's new</p>
+      <h2 class="reveal">Changelog</h2>
+      <div class="changelog reveal">
+        <div class="cl-item">
+          <div class="cl-ver">v1.0.0</div>
+          <div class="cl-body">
+            <div class="cl-date">October 2, 2026</div>
+            <p>Initial release: WebSocket tunnel to a proxy node, automatic selection of the fastest server, keep-alive and auto-reconnect, DNS protection.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section download" id="download">
+    <div class="container">
+      <span class="tunnel tunnel-dl" aria-hidden="true"><i></i><i></i><i></i></span>
+      <h2 class="reveal">Open Discord today</h2>
+      <p class="dl-meta reveal" id="dlMeta">Version 1.0.0 · Windows 10 / 11 · 64-bit</p>
+      <!-- TODO: replace href with the link to your .exe release -->
+      <div class="dl-actions reveal">
+        <a class="btn-primary btn-big" href="https://github.com/vehrbyzzzz/tg-ws-proxy-site/releases/download/t/ZapretDiscord.exe" download>Download for Windows</a>
+      </div>
+      <p class="dl-note reveal">Free · No ads · Set up in a minute</p>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand"><span class="logo-dot"></span>© 2026 Zapret Discord</span>
+      <div class="footer-links">
+        <a href="#top">Top</a>
+        <a href="../support.html">Support</a>
+        <a href="../terms.html">Terms of use</a>
+      </div>
+    </div>
+  </footer>
+
+  <a class="mobile-cta" id="mobileCta" href="#download">Download Zapret Discord</a>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Back to top">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <script src="../app.js"></script>
+</body>
+</html>
